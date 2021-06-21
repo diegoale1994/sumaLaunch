@@ -26,7 +26,10 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "crypto-js"
+            ]
           },
           "configurations": {
             "production": {
@@ -120,5 +123,8 @@
       }
     }
   },
-  "defaultProject": "sumaTest"
+  "defaultProject": "sumaTest",
+  "cli": {
+    "analytics": "49ec6e38-79a9-4c6f-8a1d-17c37e446a1b"
+  }
 }
