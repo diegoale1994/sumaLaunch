@@ -1,6 +1,6 @@
 <button (click)="integrate();">Integrate</button>
 
 
-<form id="ltiForm" action="https://icfes-test.sumadi.net/lti/v1" method="POST">
+<form id="ltiForm" [action]="url" method="POST">
   <input type="submit" value="Launch Endpoint with BasicLTI Data"/>
 </form>

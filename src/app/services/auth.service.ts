@@ -24,7 +24,7 @@ constructor(private httpClient: HttpClient) {
 
 consumerKey = 'rNFHVnNLjQ5W8jq2';
 consumerSecret = 'fbwaVyvFCnmhEb5y';
-baseUrl = 'https://icfes-test.sumadi.net/lti/v1';
+baseUrl = 'https://icfes-test.sumadi.net/lti/v1/echo';
 callback = 'http://localhost:4200/';
 signature_method = 'HMAC-SHA1';
 timestamp = Math.floor(Date.now() / 1000); // Timestamp in Second
@@ -32,7 +32,7 @@ timestamp = Math.floor(Date.now() / 1000); // Timestamp in Second
 nonce = Math.random();
 httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type': 'multipart/form-data',
+    'Content-Type': 'application/x-www-form-urlencoded'
   })
 };
 
@@ -46,10 +46,10 @@ const token = {
   secret: this.consumerSecret,
 }
  const authorization = this.oauthObject.authorize({url: this.baseUrl, method: 'POST'});
- Object.assign(params, authorization);
+ //Object.assign(params, authorization);
 
  const request_data = {
-  url: 'https://icfes-test.sumadi.net/lti/v1',
+  url: this.baseUrl,
   method: 'POST',
   data: params
 } 

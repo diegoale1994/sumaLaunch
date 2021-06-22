@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { AuthService } from './services/auth.service';
+import * as OAuth from 'oauth-1.0a';
 
 @Component({
   selector: 'app-root',
@@ -8,8 +9,8 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
-  url = 'https://icfes-test.sumadi.net/lti/v1';
+  oauthObject: any;
+  url = 'https://icfes-test.sumadi.net/lti/v1/echo';
   consumerKey = 'rNFHVnNLjQ5W8jq2';
   consumerSecret = 'fbwaVyvFCnmhEb5y';
   callback = 'http://localhost:4200/';
@@ -18,7 +19,18 @@ export class AppComponent implements OnInit {
   nonce = Math.random();
   params: any;
 
-  constructor(private _authService: AuthService) {}
+  constructor(private _authService: AuthService) {
+    this.oauthObject = new OAuth({
+      consumer: {
+          key: 'rNFHVnNLjQ5W8jq2',
+          secret: 'fbwaVyvFCnmhEb5y'
+      },
+      signature_method: 'HMAC-SHA1',
+      hash_function: function(base_string, key) {
+        return CryptoJS.HmacSHA1(base_string, key).toString(CryptoJS.enc.Base64);
+      }
+  });
+  }
 
 
   ngOnInit(): void {
@@ -51,13 +63,16 @@ export class AppComponent implements OnInit {
       "custom_redirect_url": 'http://localhost:4200/'
     };
 
-    let url = `POST&${this.url}`;
+    const authorization = this.oauthObject.authorize({url: this.url, method: 'POST'});
+
+    Object.assign(this.params, authorization);
+
+  /*   let url = `POST&${this.url}`;
 
     for (let [key, value] of Object.entries(this.params)) {
      url = url + `&${key}=${value}`;
-  }
+  } */
 
-  console.log(url);
 
     //this.params.oauth_signature = CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA1(url, this.consumerSecret));
 
