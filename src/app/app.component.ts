@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { AuthService } from './services/auth.service';
-import * as $ from 'jquery';
 
 @Component({
   selector: 'app-root',
@@ -28,13 +27,13 @@ export class AppComponent implements OnInit {
       "lti_version": 'LTI-1p0',
       "lti_message_type": "basic_lti-launch-request",
       // OAuth 1.0a Required Parameters
-      "oauth_consumer_key": this.consumerKey,
+      /* "oauth_consumer_key": this.consumerKey,
       "oauth_nonce": btoa(this.timestamp + ''),
       "oauth_signature_method": this.signature_method,
       "oauth_timestamp": this.timestamp + '',
       "oauth_version": '1.0',
       "oauth_consumer_secret": this.consumerSecret,
-      "oauth_signature": '',
+      "oauth_signature": '', */
       "tool_consumer_info_product_family_code": 'Plexi',
       "lis_person_sourcedid": 'JhonDoe',
       "lis_person_name_given": 'Jhon',
@@ -60,7 +59,7 @@ export class AppComponent implements OnInit {
 
   console.log(url);
 
-    this.params.oauth_signature = CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA1(url, this.consumerSecret));
+    //this.params.oauth_signature = CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA1(url, this.consumerSecret));
 
     const form = document.querySelector("#ltiForm") as any;
     for (var name in this.params) {
@@ -71,7 +70,6 @@ export class AppComponent implements OnInit {
       form.appendChild(node);
     }
 
-    const $ltiLaunchForm = $('#ltiForm');
   }
 
 
